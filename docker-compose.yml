@@ -1,0 +1,37 @@
+services:
+  ms1-demand:
+    build:
+      context: .
+      dockerfile: demand/Dockerfile
+    ports:
+      - "50052:50052"
+    networks:
+      - iscf_network
+
+  ms2-inventory:
+    build:
+      context: .
+      dockerfile: inventory/dockerfile
+    ports:
+      - "50051:50051"
+    networks:
+      - iscf_network
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api_gateway/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MS1_HOST=ms1-demand:50052
+      - MS2_HOST=ms2-inventory:50051
+    networks:
+      - iscf_network
+    depends_on:
+      - ms1-demand
+      - ms2-inventory
+
+networks:
+  iscf_network:
+    driver: bridge
