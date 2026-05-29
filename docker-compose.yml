@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: demand/Dockerfile
-    ports:
-      - "50052:50052"
+    expose:
+      - "50052"
     networks:
       - iscf_network
 
@@ -12,8 +12,8 @@ services:
     build:
       context: .
       dockerfile: inventory/dockerfile
-    ports:
-      - "50051:50051"
+    expose:
+      - "50051"
     networks:
       - iscf_network
 
